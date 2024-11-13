@@ -1,0 +1,52 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hub-operators-deployment
+  namespace: openshift-gitops
+spec:
+  destination:
+    name: ''
+    namespace: ''
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: hub-config/operators-deployment
+    repoURL: 'git@10.23.223.72:/home/git/acm.git'
+    targetRevision: master
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 1
+        maxDuration: 3m0s
+      limit: 1000
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hub-operators-config
+  namespace: openshift-gitops
+spec:
+  destination:
+    name: ''
+    namespace: ''
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: hub-config/operators-config
+    repoURL: 'git@10.23.223.72:/home/git/acm.git'
+    targetRevision: master
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 1
+        maxDuration: 3m0s
+      limit: 1000

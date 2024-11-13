@@ -1,0 +1,22 @@
+apiVersion: noobaa.io/v1alpha1
+kind: NooBaa
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: noobaa
+  namespace: ibu-odf-s3-storage
+spec:
+  coreResources:
+    requests:
+      cpu: "1"
+      memory: 1Gi
+    limits:
+      cpu: "2"
+      memory: 2Gi
+  dbResources:
+    requests:
+      cpu: "1"
+      memory: 1Gi
+    limits:
+      cpu: "2"
+      memory: 2Gi
