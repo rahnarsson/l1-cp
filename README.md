@@ -2,6 +2,9 @@
 
 The purpose of this repo its to document all the steps in deploying a CloudPlatform which purpose its to deploy, manage and monitor a number of Spoke(s) OCP Clusters.
 
+> [!CAUTION]
+> Unless specified otherwise, everything contained in this repository is unsupported by Red Hat.
+
 ## Table of Contents
 - [L1-CloudPlatform](#l1-cloudplatform)
   - [Table of Contents](#table-of-contents)
@@ -77,7 +80,7 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
 
 2 directory, 5 files
 ```
-- installing the 
+- Installing the 
 - Generating the `.iso` content:
 
 ```bash
