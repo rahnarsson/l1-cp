@@ -56,7 +56,7 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
 - Generating the `oc` client:
 
 ```bash
-# ./oc adm release extract --command=${HOME}/oc registry.example:5000/ocp-release:4.16.15-x86_64 -a .docker/config.json
+# ./oc adm release extract -a .docker/config.json --command=oc registry.example:5000/ocp-release:4.16.15-x86_64 
 ```
 
 - Generating the `openshift-install` client:
