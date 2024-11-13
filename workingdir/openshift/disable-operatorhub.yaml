@@ -1,0 +1,9 @@
+---
+apiVersion: config.openshift.io/v1
+kind: OperatorHub
+metadata:
+  labels:
+    config.nokia.com/reboot: required
+  name: cluster
+spec:
+  disableAllDefaultSources: true

@@ -1,0 +1,27 @@
+---
+apiVersion: local.storage.openshift.io/v1
+kind: LocalVolume
+metadata:
+  labels:
+    config.nokia.com/included_within: ocp-4.16.15-nokia.24.10.3
+    config.nokia.com/reboot: not_required
+  name: local-block
+  namespace: openshift-local-storage
+spec:
+  logLevel: Normal
+  managementState: Managed
+  nodeSelector:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: kubernetes.io/hostname
+        operator: In
+        values:
+        - master0.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+        - master1.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+        - master2.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+  storageClassDevices:
+  - devicePaths:
+    - /dev/disk/by-path/pci-0000:00:11.5-ata-3
+    storageClassName: localblock
+    volumeMode: Block
+

@@ -1,0 +1,190 @@
+apiVersion: v1beta1
+kind: AgentConfig
+metadata:
+  name: b11oe21mno
+rendezvousIP: 10.17.113.100
+additionalNTPSources:
+  - 10.16.32.98
+  - 10.16.32.99
+  - 10.16.32.100
+hosts: 
+  - hostname: master0.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+    role: master
+    interfaces:
+      - name: ens43f0
+        macAddress: b4:96:91:d1:51:d0
+    rootDeviceHints: 
+      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
+    networkConfig: 
+      interfaces:
+        - name: ens43f0
+          type: ethernet
+          state: up
+          mac-address: b4:96:91:d1:51:d0
+          ipv4:
+            enabled: true
+            dhcp: false
+          ipv6: 
+            enabled: false
+          mtu: 9000
+          ethernet:
+            auto-negotiation: true
+            duplex: full
+        - name: ens43f0.1501
+          type: vlan
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 10.17.113.100
+                prefix-length: 28
+            dhcp: false
+          mtu: 1500
+          vlan:
+            base-iface: ens43f0
+            id: 1501
+      dns-resolver:
+        config:
+          server:
+            - 10.20.176.11
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 10.17.113.97
+            next-hop-interface: ens43f0.1501
+            table-id: 254
+  - hostname: master1.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+    role: master
+    interfaces:
+      - name: ens43f0
+        macAddress: b4:96:91:d0:f0:a0
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
+    networkConfig: 
+      interfaces:
+        - name: ens43f0
+          type: ethernet
+          state: up
+          mac-address: b4:96:91:d0:f0:a0
+          ipv4:
+            enabled: true
+            dhcp: false
+          ipv6:
+            enabled: false
+          mtu: 9000
+          ethernet:
+            auto-negotiation: true
+            duplex: full
+        - name: ens43f0.1501
+          type: vlan
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 10.17.113.101
+                prefix-length: 28
+            dhcp: false
+          mtu: 1500
+          vlan:
+            base-iface: ens43f0
+            id: 1501
+      dns-resolver:
+        config:
+          server:
+            - 10.20.176.11
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 10.17.113.97
+            next-hop-interface: ens43f0.1501
+            table-id: 254
+  - hostname: master2.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+    role: master
+    interfaces:
+      - name: ens43f0
+        macAddress: b4:96:91:d1:2f:60
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
+    networkConfig:
+      interfaces:
+        - name: ens43f0
+          type: ethernet
+          state: up
+          mac-address: b4:96:91:d1:2f:60
+          ipv4:
+            enabled: true
+            dhcp: false
+          ipv6:
+            enabled: false
+          mtu: 9000
+          ethernet:
+            auto-negotiation: true
+            duplex: full
+        - name: ens43f0.1501
+          type: vlan
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 10.17.113.102
+                prefix-length: 28
+            dhcp: false
+          mtu: 1500
+          vlan:
+            base-iface: ens43f0
+            id: 1501
+      dns-resolver:
+        config:
+          server:
+            - 10.20.176.11
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 10.17.113.97
+            next-hop-interface: ens43f0.1501
+            table-id: 254
+  - hostname: worker0.b11oe21mno.dyn.onebts.espoo.nsn-rdnet.net
+    role: worker
+    interfaces:
+      - name: ens43f0
+        macAddress: b4:96:91:d0:d4:d0
+    rootDeviceHints:
+      deviceName: "/dev/disk/by-path/pci-0000:00:11.5-ata-2.0"
+    networkConfig:
+      interfaces:
+        - name: ens43f0
+          type: ethernet
+          state: up
+          mac-address: b4:96:91:d0:d4:d0
+          ipv4:
+            enabled: true
+            dhcp: false
+          ipv6:
+            enabled: false
+          mtu: 9000
+          ethernet:
+            auto-negotiation: true
+            duplex: full
+        - name: ens43f0.1501
+          type: vlan
+          state: up
+          ipv4:
+            enabled: true
+            address:
+              - ip: 10.17.113.103
+                prefix-length: 28
+            dhcp: false
+          mtu: 1500
+          vlan:
+            base-iface: ens43f0
+            id: 1501
+      dns-resolver:
+        config:
+          server:
+            - 10.20.176.11
+      routes:
+        config:
+          - destination: 0.0.0.0/0
+            next-hop-address: 10.17.113.97
+            next-hop-interface: ens43f0.1501
+            table-id: 254
