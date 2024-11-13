@@ -27,49 +27,17 @@ platform:
     - 10.17.113.99
     ingressVIPs:
     - 10.17.113.98
-pullSecret: '{"auths":{"10.16.33.251:30050":{"auth":"bmVhdDpuZWF0"},"mn-ran-ocp-release-local.artifactory-espoo2.int.net.nokia.com:443":{"auth":"Y29jcDpBUEFObVh4WHp0SGpRa1AybTFFRkJ0cXhLZzk="},"quay-1.l1pz-espoo.dyn.nesc.nokia.net":{"auth":"amVua2luczpzeXN0ZW0xMjM="},"quay-2.l1pz-espoo.dyn.nesc.nokia.net":{"auth":"amVua2luczpzeXN0ZW0xMjM="}}}' 
-sshKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCjnsTi1Z5OXb5/BXXNoaWKCa/3oVFJ6fHSYFejhNthDB2MzEiEp0pG54yjnB/EaNnTlaP0go6iQbvpQ6NdVISRDQOMK1dClfVKy4o7KKah6Q0/JZSUZ11lTqK6AU5avvlRAcc2u+K0PhZLtt/t8xQ8JuYSdzfDCuDaumCacqhxHCjKmhxaEf5w2n6SFUUcX+XM+RVIBV92Row/xrfZzSZ/+fpZ3vcBF+efvylM8nWqOxdSox9XdND56aavEDtR0n4e9Pmb8PmZjHK+8TQuXq74kRFj/JRclQHPxN3yAunAbbIOzNBgFfiou0plPIQWG6oxcT2WGHhmu6QGXwqZPQOKDOGxaViIpe+MKPdhaVqAvXSch6/rAe+vsE0DLpFnvBsUzRTjIRb/rQhPRG6yCJcIUIdyuqaLHu+vN8Z+mZMwa5EQKVHAYAUVmhB51qmLiLQWCiFAkpBuxJv7X/KE8rouzAffKk+cvR4s8TKMWDaMaOeKdNIw7lHKpkUlr3SVjrs= user@work'
+pullSecret: '{"auths":{"10.16.33.251:30050":{"auth":"<redacted>"},"registry.example.com:443":{"auth":"<redacted>"},"quay-1.l1pz-espoo.dyn.nesc.nokia.net":{"auth":"<redacted>"},"quay-2.l1pz-espoo.example.com":{"auth":"<redacted>"}}}' 
+sshKey: 'ssh-rsa AAAA<redacted> user@work'
 imageContentSources:
   - mirrors:
-    - quay-2.l1pz-espoo.dyn.nesc.nokia.net/unbox/openshift/release
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release
     source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
   - mirrors:
-    - quay-2.l1pz-espoo.dyn.nesc.nokia.net/unbox/openshift/release-images
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release-images
     source: quay.io/openshift-release-dev/ocp-release
 additionalTrustBundle: |
   -----BEGIN CERTIFICATE-----
-  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
+  <redacted>
   -----END CERTIFICATE-----
 
