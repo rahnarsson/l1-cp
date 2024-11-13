@@ -77,7 +77,7 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
 
 2 directory, 5 files
 ```
-
+- installing the 
 - Generating the `.iso` content:
 
 ```bash
