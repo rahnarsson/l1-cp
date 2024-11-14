@@ -226,4 +226,14 @@ Before applying the ArgoCD for managing the policies and managed clusters, ensur
 
 ## Results and Problems
 
-- It has not created 
+- It has not created the [gitops_service_cluster.yaml](./hub-config/operators-config/gitops_service_cluster.yaml).
+- Once the ODF Hub Cluster its created, ensure the following steps are done:
+  
+  - master nodes gets labeled as below:
+```bash
+# oc label nodes master{0,1,2} cluster.ocs.openshift.io/openshift-storage=""
+```
+  - ensure that the application disks gets cleaned up:
+```bash
+# sgdisk --zap-all /dev/sdb && sudo wipefs -a /dev/sdb
+```
