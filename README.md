@@ -217,6 +217,13 @@ Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you ca
 
 In this section we are going to outline the steps required to achieve a first RHACM Managed/Spoke(s) Deployment.
 
+Before applying the ArgoCD for managing the policies and managed clusters, ensure to patch the ArgoCD:
+
+```bash
+# oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ./hub-config/argocd/argocdpatch.json
+ ```
 ## Conclusions
 
 ## Results and Problems
+
+- It has not created 
