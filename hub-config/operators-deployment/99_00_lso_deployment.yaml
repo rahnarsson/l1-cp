@@ -33,6 +33,6 @@ metadata:
   namespace: openshift-local-storage
 spec:
   installPlanApproval: Automatic
-  name: advanced-cluster-management
+  name: local-storage-operator
   source: cs-redhat-operator-index
   sourceNamespace: openshift-marketplace
