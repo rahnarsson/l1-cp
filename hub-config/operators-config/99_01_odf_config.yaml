@@ -14,10 +14,6 @@ metadata:
   - storagecluster.ocs.openshift.io
   name: ocs-storagecluster
   namespace: openshift-storage
-  ownerReferences:
-  - apiVersion: odf.openshift.io/v1alpha1
-    kind: StorageSystem
-    name: ocs-storagecluster-storagesystem
 spec:
   arbiter: {}
   enableCephTools: true
