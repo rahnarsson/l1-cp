@@ -9,7 +9,6 @@ metadata:
     installer.name: multiclusterhub
     installer.namespace: open-cluster-management
     multiclusterhubs.operator.open-cluster-management.io/managed-by: "true"
-
 spec:
   availabilityConfig: High
   overrides:
