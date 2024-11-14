@@ -34,8 +34,11 @@ curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.15/opens
 
 ### Step 1. Mirorring the OCI content for a [disconnected installation using oc-mirror](https://docs.openshift.com/container-platform/4.16/installing/disconnected_install/installing-mirroring-disconnected.html)
 
+> [!WARNING]
+> Ensure to include in your `config.json` the pull-secret of your AirGapped Registry and Red Hat public [pull-secret](https://console.redhat.com/openshift/install/pull-secret).
+
 ```bash
-# DOCKER_CONFIG=./.docker/config.json; ./oc-mirror --config imageset-config.yml file:///mnt/c/Users/idumi/
+# DOCKER_CONFIG=${HOME}/.docker/config.json; ./oc-mirror --config imageset-config.yml file:///mnt/c/Users/idumi/
 Creating directory: home/oc-mirror-workspace/src/publish
 Creating directory: home/oc-mirror-workspace/src/v2
 Creating directory: home/oc-mirror-workspace/src/charts
@@ -49,7 +52,7 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
 
 ### Step 2. Mirroring the OCI content to a Centralized Customer Registry
 ```bash
-# DOCKER_CONFIG=./.docker/config.json;  \
+# DOCKER_CONFIG=${HOME}/.docker/config.json;  \
     ./oc-mirror --from=./mnt/d/l1-cp/ docker://registry.example:5000 
 ```
 
