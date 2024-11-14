@@ -13,7 +13,8 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
     - [Step 3. Agent-based Installer](#step-3-agent-based-installer)
-    - [Step 3. Hub Configuration](#step-3-hub-configuration)
+    - [Step 4. Hub Configuration](#step-4-hub-configuration)
+    - [Step 5. Spoke deployment](#step-5-spoke-deployment)
   - [Conclusions](#conclusions)
   - [Results and Problems](#results-and-problems)
 
@@ -193,7 +194,7 @@ Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot 
 ./openshift-install --dir ${HOME}/workingdir/. agent wait-for install-complete \
     --log-level=info
 ```
-### Step 3. [Hub Configuration](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.12/html-single/argo_cd_applications/index)
+### Step 4. [Hub Configuration](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.12/html-single/argo_cd_applications/index)
 
 Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you can proceed by creating the Hub Configuration ArgoCD Applications:
 
@@ -211,6 +212,11 @@ Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you ca
 > repoURL: 'git@10.23.223.72:/home/git/acm.git'
 > 
 > targetRevision: master
+
+### Step 5. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
+
+In this section we are going to outline the steps required to achieve a first RHACM Managed/Spoke(s) Deployment.
+
 ## Conclusions
 
 ## Results and Problems
