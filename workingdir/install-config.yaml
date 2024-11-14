@@ -27,7 +27,7 @@ platform:
     - 10.17.113.99
     ingressVIPs:
     - 10.17.113.98
-pullSecret: '{"auths":{"10.16.33.251:30050":{"auth":"<redacted>"},"registry.example.com:443":{"auth":"<redacted>"},"quay-1.l1pz-espoo.dyn.nesc.nokia.net":{"auth":"<redacted>"},"quay-2.l1pz-espoo.example.com":{"auth":"<redacted>"}}}' 
+pullSecret: '{"auths":{"10.16.33.251:30050":{"auth":"<redacted>"},"registry.example.com:443":{"auth":"<redacted>"},"quay-1.l1pz-espoo.example.com":{"auth":"<redacted>"},"quay-2.l1pz-espoo.example.com":{"auth":"<redacted>"}}}' 
 sshKey: 'ssh-rsa AAAA<redacted> user@work'
 imageContentSources:
   - mirrors:
