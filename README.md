@@ -13,6 +13,7 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
     - [Step 3. Agent-based Installer](#step-3-agent-based-installer)
+    - [Step 3. Hub Configuration](#step-3-hub-configuration)
   - [Conclusions](#conclusions)
   - [Results and Problems](#results-and-problems)
 
@@ -77,11 +78,13 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
 ├── agent-config.yaml
 ├── install-config.yaml
 └── openshift
-    ├── 99_01_argo_namespace.yaml
-    ├── 99_02_argo_operatorgroup.yaml
-    └── 99_03_argo_subscription.yaml
+    ├── 99-masters-chrony-configuration.yaml
+    ├── 99_01_argo.yaml
+    ├── catalogSource-cs-redhat-operator-index.yaml
+    ├── disable-operatorhub.yaml
+    └── imageContentSourcePolicy.yaml
 
-2 directory, 5 files
+2 directories, 7 files
 ```
 Explaining all the parameters of the [install-config.yaml](./workingdir/install-config.yaml), you can use the following approach:
 ```bash
@@ -190,7 +193,24 @@ Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot 
 ./openshift-install --dir ${HOME}/workingdir/. agent wait-for install-complete \
     --log-level=info
 ```
+### Step 3. [Hub Configuration](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.12/html-single/argo_cd_applications/index)
 
+Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you can proceed by creating the Hub Configuration ArgoCD Applications:
+
+- Create the [ArgoCD Applications](./hub-config/hub-operators-argoapps.yaml):
+```bash
+# oc create -f ./hub-config/hub-operators-argoapps.yaml
+```
+> [!WARNING]
+> Ensure that the Git-Server values are set according to your system for [hub-operators-argoapps.yaml](./hub-config/hub-operators-argoapps.yaml).
+>
+> Example used: 
+> 
+> path: hub-config/operators-deployment
+> 
+> repoURL: 'git@10.23.223.72:/home/git/acm.git'
+> 
+> targetRevision: master
 ## Conclusions
 
 ## Results and Problems
