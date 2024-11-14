@@ -5,6 +5,7 @@ commonAnnotations:
 resources:
   - 00_rhacm_config.yaml
   - 01_ai_config.yaml
+  - gitops_service_cluster.yaml
   - 02_patch_provisioning.yaml
   - 03_mce_config.yaml
 #  - 04_observability_config.yaml
