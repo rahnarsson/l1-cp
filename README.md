@@ -12,9 +12,10 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
     - [Step 0. Download the pre-requisites binaries](#step-0-download-the-pre-requisites-binaries)
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
-    - [Step 3. Agent-based Installer](#step-3-agent-based-installer)
-    - [Step 4. Hub Configuration](#step-4-hub-configuration)
-    - [Step 5. Spoke deployment](#step-5-spoke-deployment)
+    - [Step 3. Downloading the RHCOS to AirGapped HTTP Server](#step-3-downloading-the-rhcos-to-airgapped-http-server)
+    - [Step 4. Agent-based Installer](#step-4-agent-based-installer)
+    - [Step 5. Hub Configuration](#step-5-hub-configuration)
+    - [Step 6. Spoke deployment](#step-6-spoke-deployment)
   - [Conclusions](#conclusions)
   - [Results and Problems](#results-and-problems)
 
@@ -48,7 +49,24 @@ backend is not configured in imageset-config.yaml, using stateless mode
 No metadata detected, creating new workspace
 ..redacted..
 ```
-For any reference of the [imageset-config.yml](imageset-config.yml).
+For any reference of the [imageset-config.yml](./imageset-config.yml).
+
+> [!WARNING]
+> In order to ensure that we adhere to the latest `day2-operator` channel used, ensure that your `imageset-config.yaml` content its allign the content reflected by running:
+>
+> ```bash
+> oc-mirror list operators --catalog=registry.redhat.io/redhat/redhat-operator-index:v4.16 --package=advanced-cluster-management
+> Logging to .oc-mirror.log
+> NAME                         DISPLAY NAME                                DEFAULT CHANNEL
+> advanced-cluster-management  Advanced Cluster Management for Kubernetes  release-2.12
+> 
+> PACKAGE                      CHANNEL       HEAD
+> advanced-cluster-management  release-2.10  advanced-cluster-management.v2.10.6
+> advanced-cluster-management  release-2.11  advanced-cluster-management.v2.11.3
+> advanced-cluster-management  release-2.12  advanced-cluster-management.v2.12.0
+> ```
+> As outlined in the above example, the [imageset-config.yml](./imageset-config.yml) used in week46-2024 it was refering the `release-2.11` default channel for the `advanced-cluster-management`, in order to adhere to the latest changes, use the [imageset-config-w47.yml](./imageset-config-w47.yml).
+
 
 ### Step 2. Mirroring the OCI content to a Centralized Customer Registry
 ```bash
@@ -56,7 +74,18 @@ For any reference of the [imageset-config.yml](imageset-config.yml).
     ./oc-mirror --from=./mnt/d/l1-cp/ docker://registry.example:5000 
 ```
 
-### Step 3. [Agent-based Installer](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/installing_an_on-premise_cluster_with_the_agent-based_installer/index#about-the-agent-based-installer)
+### Step 3. Downloading the RHCOS to AirGapped HTTP Server
+
+The [rhcos sources for deploying Managed/Spoke(s) 4.16 Clusters](https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/) its 
+
+Ensure that you are downloading the following content:
+- [rhcos-4.16.0-x86_64-live-rootfs.x86_64.img](https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/rhcos-4.16.3-x86_64-live-rootfs.x86_64.img)
+- [rhcos-4.16.0-x86_64-live.x86_64.iso](https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/rhcos-4.16.3-x86_64-live.x86_64.iso)
+
+And store them to your AirGapped HTTP(s) Server, this content its required while configuring [multicluster-engine](./hub-config/operators-config/01_ai_config.yaml) operator.
+
+
+### Step 4. [Agent-based Installer](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html-single/installing_an_on-premise_cluster_with_the_agent-based_installer/index#about-the-agent-based-installer)
 
 
 - Generating the `oc` client:
@@ -197,10 +226,15 @@ Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot 
 ./openshift-install --dir ${HOME}/workingdir/. agent wait-for install-complete \
     --log-level=info
 ```
-### Step 4. [Hub Configuration](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.12/html-single/argo_cd_applications/index)
+### Step 5. [Hub Configuration](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.12/html-single/argo_cd_applications/index)
 
 Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you can proceed by creating the Hub Configuration ArgoCD Applications:
 
+- Label the Storage nodes of your Hub Cluster:
+```bash
+# oc label nodes master{0,1,2} cluster.ocs.openshift.io/openshift-storage=""
+```
+Ensure that the nodes that are 
 - Create the [ArgoCD Applications](./hub-config/hub-operators-argoapps.yaml):
 ```bash
 # oc create -f ./hub-config/hub-operators-argoapps.yaml
@@ -216,7 +250,7 @@ Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you ca
 > 
 > targetRevision: master
 
-### Step 5. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
+### Step 6. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
 
 In this section we are going to outline the steps required to achieve a first RHACM Managed/Spoke(s) Deployment.
 
