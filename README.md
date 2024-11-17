@@ -9,7 +9,7 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
 - [L1-CloudPlatform](#l1-cloudplatform)
   - [Table of Contents](#table-of-contents)
   - [Method of Procedure](#method-of-procedure)
-    - [Pre-requisites](#pre-requisites)
+    - [Prerequisites](#prerequisites)
     - [Step 0. Download the pre-requisites binaries](#step-0-download-the-pre-requisites-binaries)
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
@@ -22,9 +22,9 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
 
 ## Method of Procedure
 
-### Pre-requisites
+### [Prerequisites](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/preparing-to-install-with-agent-based-installer.html)
 
-In order to have a fully functional Hub Cluster and deploy Managed/Spoke(s) Clusters ensure your environment meets the following pre-requisites:
+In order to have a fully functional Hub Cluster and deploy Managed/Spoke(s) Clusters ensure your environment meets the following [prerequisites](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/preparing-to-install-with-agent-based-installer.html):
 
 - AirGapped Registry
 - AirGapped HTTP(s) Server
@@ -41,6 +41,7 @@ In order to have a fully functional Hub Cluster and deploy Managed/Spoke(s) Clus
 ```bash
 curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.15/oc-mirror.tar.gz | tar -xz && chmod +x oc-mirror
 ```
+Installing the [oc-mirror](https://docs.openshift.com/container-platform/4.16/installing/disconnected_install/installing-mirroring-disconnected.html#installing-mirroring-disconnected) OpenShift CLI plugin. 
 
 - Ensure my environment has `oc` client:
 ```bash
@@ -93,9 +94,9 @@ The following table privides an overview of the ammount of disk space required f
 | Version | Storage Required | Notes |
 | --- | --- | --- |
 | Cluster Release Operators 4.16.15 | ~ 20 GiB  | A single Release  |
-| RHACM day2-operators | ~ 50 GiB | RHACM Day2 Operators [imageset-config.yml](./imageset-config.yml)
+| RHACM day2-operators | ~ 50 GiB | A single Release of RHACM Day2 Operators [imageset-config.yml](./imageset-config.yml)
 | Additional troubleshooting OCI(s)| ~ 4 GiB | A single Release | 
-|  |  |  |
+| **Total**| **74 GiB** | 
 
 
 ### Step 3. Downloading the RHCOS to AirGapped HTTP Server
@@ -234,9 +235,9 @@ FIELDS:
       ProvisioningNetworkInterface is the name of the network interface on a control plane baremetal host that is connected to the provisioning network.
 ```
 
-- Installing the `nmstate` on the host:
+- Installing the [nmstatectl](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html#installing-ocp-agent-inputs_installing-with-agent-based-installer) on the host:
 ```bash
-# dnf -y install nmstate
+# dnf install /usr/bin/nmstatectl -y
 ```
 - Generating the `.iso` content:
 
@@ -245,7 +246,7 @@ FIELDS:
 ```
 Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot from it.
 
-- Monitoring the installation process:
+- [Monitoring the installation process](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html#installing-ocp-agent-verify_installing-with-agent-based-installer):
 ```bash
 ./openshift-install --dir ${HOME}/workingdir/. agent wait-for install-complete \
     --log-level=info
