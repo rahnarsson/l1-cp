@@ -9,6 +9,7 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
 - [L1-CloudPlatform](#l1-cloudplatform)
   - [Table of Contents](#table-of-contents)
   - [Method of Procedure](#method-of-procedure)
+    - [Pre-requisites](#pre-requisites)
     - [Step 0. Download the pre-requisites binaries](#step-0-download-the-pre-requisites-binaries)
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
@@ -20,6 +21,19 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
   - [Results and Problems](#results-and-problems)
 
 ## Method of Procedure
+
+### Pre-requisites
+
+In order to have a fully functional Hub Cluster and deploy Managed/Spoke(s) Clusters ensure your environment meets the following pre-requisites:
+
+- AirGapped Registry
+- AirGapped HTTP(s) Server
+- Git-Server
+- DNS-Server
+
+> [!WARNING]
+> 
+>
 
 ### Step 0. Download the pre-requisites binaries
 
@@ -73,6 +87,16 @@ For any reference of the [imageset-config.yml](./imageset-config.yml).
 # DOCKER_CONFIG=${HOME}/.docker/config.json;  \
     ./oc-mirror --from=./mnt/d/l1-cp/ docker://registry.example:5000 
 ```
+
+The following table privides an overview of the ammount of disk space required for the AirGapped Registry + a 10% overhead when mirroring the [imageset-config.yaml](./imageset-config.yml) :
+
+| Version | Storage Required | Notes |
+| --- | --- | --- |
+| Cluster Release Operators 4.16.15 | ~ 20 GiB  | A single Release  |
+| RHACM day2-operators | ~ 50 GiB | RHACM Day2 Operators [imageset-config.yml](./imageset-config.yml)
+| Additional troubleshooting OCI(s)| ~ 4 GiB | A single Release | 
+|  |  |  |
+
 
 ### Step 3. Downloading the RHCOS to AirGapped HTTP Server
 
