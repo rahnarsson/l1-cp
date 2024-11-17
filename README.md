@@ -243,12 +243,11 @@ Ensure that the nodes that are
 > Ensure that the Git-Server values are set according to your system for [hub-operators-argoapps.yaml](./hub-config/hub-operators-argoapps.yaml).
 >
 > Example used: 
-> 
+> ```bash
 > path: hub-config/operators-deployment
-> 
 > repoURL: 'git@10.23.223.72:/home/git/acm.git'
-> 
 > targetRevision: master
+> ```
 
 ### Step 6. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
 
