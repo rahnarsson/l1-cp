@@ -18,6 +18,8 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
     - [Step 5. Hub Configuration](#step-5-hub-configuration)
     - [Step 6. Spoke deployment](#step-6-spoke-deployment)
   - [Conclusions](#conclusions)
+    - [ArgoCD application management:](#argocd-application-management)
+    - [No OSD pods are running in an OCS 4.x cluster, even when the OSD Prepare pods are in Completed state, Why?](#no-osd-pods-are-running-in-an-ocs-4x-cluster-even-when-the-osd-prepare-pods-are-in-completed-state-why)
   - [Results and Problems](#results-and-problems)
 
 ## Method of Procedure
@@ -284,6 +286,49 @@ Before applying the ArgoCD for managing the policies and managed clusters, ensur
 # oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ./hub-config/argocd/argocdpatch.json
  ```
 ## Conclusions
+
+### ArgoCD application management:
+
+This can be easly achieved by using the `argocd` [client](https://argo-cd.readthedocs.io/en/stable/cli_installation/). 
+  
+- How to use the `argocd` client to interact with `gitops-operator` from `RHACM Hub Cluster` ?
+
+*Answer:*
+
+  - Obtain the `ArgoCD Password`:
+```bash
+# ARGOCD_PASS=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o jsonpath='{.data.admin\.password}' | base64 --decode)
+```
+  - Obtain the `ArgoCD` Address:
+```bash
+# ARGOCD_ROUTE=$(oc get routes -n openshift-gitops -o jsonpath='{.items[?(@.metadata.name=="openshift-gitops-server")].spec.host}')
+```
+You can check the content fo the `ARGOCD_PASS` bash variable as follows:
+
+```bash
+# echo $ARGOCD_PASS
+fAktrva8iwMBNFg9Wy5o4lnDHQs2zCZb
+```
+
+- Login to the `openshift-gitops` operator through `argocd` client:
+
+```bash
+# argocd login $ARGOCD_ROUTE
+WARNING: server certificate had error: tls: failed to verify certificate: x509: certificate signed by unknown authority. Proceed insecurely (y/n)? y
+WARN[0003] Failed to invoke grpc call. Use flag --grpc-web in grpc calls. To avoid this warning message, use flag --grpc-web.
+Username: admin
+Password:
+'admin:login' logged in successfully
+Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
+```
+
+### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
+
+If you are redeploying the OCP Cluster and the application disks were previously used by another Ceph Cluster, ensure to perform the clean-up.
+
+```bash
+# sgdisk --zap-all /dev/sdb && sudo wipefs -a /dev/sdb
+```
 
 ## Results and Problems
 
