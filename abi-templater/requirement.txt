@@ -1,0 +1,4 @@
+# Installing the required python modules
+
+pyyaml
+jinja2

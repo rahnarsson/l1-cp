@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+baseDomain: {{ base_domain }}
+compute:
+{% for compute in compute %}
+- architecture: {{ compute.architecture }}
+  hyperthreading: {{ compute.hyperthreading }}
+  name: {{ compute.name }}
+  replicas: {{ compute.replicas }}
+{% endfor %}
+controlPlane:
+  architecture: {{ control_plane.architecture }}
+  hyperthreading: {{ control_plane.hyperthreading }}
+  name: {{ control_plane.name }}
+  replicas: {{ control_plane.replicas }}
+metadata:
+  name: {{ metadata_name }}
+networking:
+  clusterNetwork:
+  {% for cluster in networking.cluster_network %}
+  - cidr: {{ cluster.cidr }}
+    hostPrefix: {{ cluster.host_prefix }}
+  {% endfor %}
+  machineNetwork:
+  {% for machine in networking.machine_network %}
+  - cidr: {{ machine.cidr }}
+  {% endfor %}
+  networkType: {{ networking.network_type }}
+  serviceNetwork:
+  {% for service in networking.service_network %}
+  - {{ service }}
+  {% endfor %}
+platform:
+  baremetal:
+    apiVIPs:
+    {% for api_vip in platform.baremetal.api_vips %}
+    - {{ api_vip }}
+    {% endfor %}
+    ingressVIPs:
+    {% for ingress_vip in platform.baremetal.ingress_vips %}
+    - {{ ingress_vip }}
+    {% endfor %}
+pullSecret: '{{ pull_secret }}'
+sshKey: '{{ ssh_key }}'
+imageContentSources:
+{% for source in image_content_sources %}
+  - mirrors:
+    {% for mirror in source.mirrors %}
+    - {{ mirror }}
+    {% endfor %}
+    source: {{ source.source }}
+{% endfor %}
+additionalTrustBundle: |
+{{ additional_trust_bundle | indent(2) }}

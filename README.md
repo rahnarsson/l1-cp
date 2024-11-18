@@ -28,14 +28,21 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
 
 In order to have a fully functional Hub Cluster and deploy Managed/Spoke(s) Clusters ensure your environment meets the following [prerequisites](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/preparing-to-install-with-agent-based-installer.html):
 
-- AirGapped Registry
+- [AirGapped Registry](https://docs.openshift.com/container-platform/4.16/installing/disconnected_install/installing-mirroring-creating-registry.html)
+
+_Download and install a local, minimal single instance deployment of Red Hat Quay to aid bootstrapping the first disconnected cluster. [Learn more](https://docs.openshift.com/container-platform/4.17/disconnected/mirroring/installing-mirroring-installation-images.html#installation-about-mirror-registry_installing-mirroring-installation-images)_
+
 - AirGapped HTTP(s) Server
+
+_Install a local, minimal single instance deployment of an http-server to aid bootstrapping the first Hub and for Managed/Spoke(s) Disconnected Cluster(s)._
+
 - Git-Server
+
+_Install a local, minimal single instance deployment of an git-server to aid the Hub day2-operators deployment + configuration and bootstrapping the Managed/Spoke(s) Disconnected Cluster(s)._
+
 - DNS-Server
 
-> [!WARNING]
-> 
->
+
 
 ### Step 0. Download the pre-requisites binaries
 

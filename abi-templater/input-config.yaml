@@ -1,0 +1,59 @@
+base_domain: dyn.onebts.example.com
+compute:
+  - architecture: amd64
+    hyperthreading: Enabled
+    name: worker
+    replicas: 1
+control_plane:
+  architecture: amd64
+  hyperthreading: Enabled
+  name: master
+  replicas: 3
+metadata_name: b11oe21mno
+networking:
+  additional_ntp_sources: ['10.16.32.98', '10.16.32.99']
+  rendezvous_ip: 10.17.113.100
+  cluster_network:
+    - cidr: 172.21.0.0/16
+      host_prefix: 23
+  machine_network:
+    - cidr: 10.17.113.96/28
+  network_type: OVNKubernetes
+  service_network:
+    - 172.22.0.0/16
+platform:
+  baremetal:
+    api_vips:
+      - 10.17.113.99
+    ingress_vips:
+      - 10.17.113.98
+pull_secret: '{"auths":{"10.16.33.251:30050":{"auth":"<redacted>"}}}'
+ssh_key: 'ssh-rsa AAAA<redacted> user@work'
+image_content_sources:
+  - mirrors:
+      - quay-2.l1pz.example.com/unbox/openshift/release
+    source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+additional_trust_bundle: |
+  -----BEGIN CERTIFICATE-----
+  <redacted>
+  -----END CERTIFICATE-----
+openshift_gitos_operator:
+  namespace:
+    annotations:
+      argocd_sync_wave: "0"
+      workload_allowed: management
+    name: openshift-gitops-operator
+    labels:
+      cluster_monitoring: "true"
+  operator_group:
+    name: openshift-gitops-operator-zx75z
+    upgrade_strategy: Default
+  subscription:
+    annotations:
+      argocd_sync_wave: "0"
+    name: openshift-gitops-operator
+    install_plan_approval: Automatic
+
+catalog_source:
+  name: cs-redhat-operator-index
+  image: quay-2.l1pz.example.com/unbox/redhat/redhat-operator-index:v4.16
