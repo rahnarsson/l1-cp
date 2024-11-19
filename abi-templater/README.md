@@ -1,5 +1,5 @@
 # AgentBasedInstaller Manifest Templater
-The purpose of this its to create a template framework for generating the `install-config.yaml` , `agent-config.yaml` and the minimum CR required in `openshift/` directory for being able to deploy a Hub Cluster with AgentBasedInstaller based on `input-config.yaml` 
+The purpose of this its to create a template framework POC - (Proof of Concept) for generating the `install-config.yaml` , `agent-config.yaml` and the minimum CR required in `openshift/` directory for being able to deploy a Hub Cluster with AgentBasedInstaller based on `input-config.yaml` 
 
 > [!CAUTION]
 > Unless specified otherwise, everything contained in this repository is unsupported by Red Hat.

@@ -95,11 +95,14 @@ def main():
             agent_file.write(agent_config_content)
         print(f"{AGENT_CONFIG_OUTPUT} generated successfully.")
 
-        # Generate 01_openshift-gitops-operator.yaml in WORKING_DIR/openshift
-        openshift_gitops_content = render_template(OPENSHIFT_GITOPS_TEMPLATE, input_config)
-        with open(OPENSHIFT_GITOPS_OUTPUT, 'w') as agent_file:
-            agent_file.write(openshift_gitops_content)
-        print(f"{OPENSHIFT_GITOPS_OUTPUT} generated successfully.")
+        if input_config.get('openshift_gitops_operator', {}).get('install_source', False):
+            # Generate 01_openshift-gitops-operator.yaml in WORKING_DIR/openshift
+            openshift_gitops_content = render_template(OPENSHIFT_GITOPS_TEMPLATE, input_config)
+            with open(OPENSHIFT_GITOPS_OUTPUT, 'w') as agent_file:
+                agent_file.write(openshift_gitops_content)
+            print(f"{OPENSHIFT_GITOPS_OUTPUT} generated successfully.")
+        else:
+            print("Skipping 01-openshift-gitops.yaml as 'openshift_gitops_operator.install_source' is not set to true.")
 
         # Generate 02_catalogsource.yaml in WORKING_DIR/openshift
         openshift_cs_content = render_template(OPENSHIFT_CS_TEMPLATE, input_config)

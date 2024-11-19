@@ -3,7 +3,7 @@ compute:
   - architecture: amd64
     hyperthreading: Enabled
     name: worker
-    replicas: 1
+    replicas: 3
 control_plane:
   architecture: amd64
   hyperthreading: Enabled
@@ -23,36 +23,25 @@ networking:
     - 172.22.0.0/16
 platform:
   baremetal:
-    api_vips:
-      - 10.17.113.99
-    ingress_vips:
-      - 10.17.113.98
+    api_vips: ['10.17.113.99'] 
+    ingress_vips: ['10.17.113.98'] 
 pull_secret: '{"auths":{"10.16.33.251:30050":{"auth":"<redacted>"}}}'
 ssh_key: 'ssh-rsa AAAA<redacted> user@work'
 image_content_sources:
   - mirrors:
-      - quay-2.l1pz.example.com/unbox/openshift/release
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release
     source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+  - mirrors:
+    - quay-2.l1pz-espoo.example.com/unbox/openshift/release-images
+    source: quay.io/openshift-release-dev/ocp-release
+    
 additional_trust_bundle: |
   -----BEGIN CERTIFICATE-----
   <redacted>
   -----END CERTIFICATE-----
-openshift_gitos_operator:
-  namespace:
-    annotations:
-      argocd_sync_wave: "0"
-      workload_allowed: management
-    name: openshift-gitops-operator
-    labels:
-      cluster_monitoring: "true"
-  operator_group:
-    name: openshift-gitops-operator-zx75z
-    upgrade_strategy: Default
-  subscription:
-    annotations:
-      argocd_sync_wave: "0"
-    name: openshift-gitops-operator
-    install_plan_approval: Automatic
+
+openshift_gitops_operator:
+  install_source: true
 
 catalog_source:
   name: cs-redhat-operator-index
