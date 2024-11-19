@@ -57,3 +57,6 @@ openshift_gitos_operator:
 catalog_source:
   name: cs-redhat-operator-index
   image: quay-2.l1pz.example.com/unbox/redhat/redhat-operator-index:v4.16
+  registry_path: quay-2.l1pz.example.com/unbox
+
+disable_default_sources: true 
