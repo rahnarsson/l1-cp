@@ -254,10 +254,10 @@ FIELDS:
 - Generating the `.iso` content:
 
 > [!WARNING]
-> Ensure at this stage to create a local back-up of your workingdir/. This is important in case of any required troubleshooting because the `openshift-install agent create image` will "consume" the files to generate the *discovery.iso* .
+> Ensure at this stage to create a local back-up of your `workingdir/`. This is important in case of any required troubleshooting because the `openshift-install agent create image` will "consume" the files to generate the *discovery.iso* .
 > 
 ```bash
-# ./openshift-install agent create image --dir ${HOME}/workdir/. --log-level debug
+# ./openshift-install agent create image --dir ${HOME}/workingdir/. --log-level debug
 ```
 Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot from it.
 
