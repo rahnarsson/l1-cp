@@ -367,6 +367,11 @@ Password:
 Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
 ```
 
+- Synchronize the ArgoCD Application
+
+```bash
+argocd app sync clusters
+```
 
 ### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
 
