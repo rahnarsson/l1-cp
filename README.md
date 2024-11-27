@@ -254,12 +254,29 @@ FIELDS:
 - Generating the `.iso` content:
 
 > [!WARNING]
-> Ensure at this stage to create a local back-up of your `workingdir/`. This is important in case of any required troubleshooting because the `openshift-install agent create image` will "consume" the files to generate the *discovery.iso* .
+> Ensure at this stage to create a local back-up of your `workingdir/`. This is important in case of any required troubleshooting because the `openshift-install agent create image` will "consume" the files to generate the *agent.x86_64.iso* .
 > 
 ```bash
 # ./openshift-install agent create image --dir ${HOME}/workingdir/. --log-level debug
 ```
-Once the `.iso` file has been generated, mount it to the Server(s) BMC and boot from it.
+Once the `agent.x86_64.iso` file has been generated, mount it to the Server(s) BMC and boot from it.
+
+```bash
+$ tree .
+.
+├── agent.x86_64.iso
+├── auth
+│   ├── kubeadmin-password
+│   └── kubeconfig
+├── oc                  # (optional: This binary can be also store under /usr/local/bin/)
+├── openshift-install   # (optional: This binary can be also store under /usr/local/bin/)
+└── rendezvousIP
+
+1 directory, 6 files
+```
+> [!WARNING]
+> Ensure at this stage to NOT remove the `./auth/{kubeadmin-password, kubeconfig}` because this will prevent the administrator to access the cluster.
+>
 
 - [Monitoring the installation process](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html#installing-ocp-agent-verify_installing-with-agent-based-installer):
 ```bash
