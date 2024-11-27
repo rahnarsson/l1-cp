@@ -10,6 +10,7 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
   - [Table of Contents](#table-of-contents)
   - [Method of Procedure](#method-of-procedure)
     - [Prerequisites](#prerequisites)
+      - [High Level Diagram of the Hub Set-up:](#high-level-diagram-of-the-hub-set-up)
     - [Step 0. Download the pre-requisites binaries](#step-0-download-the-pre-requisites-binaries)
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
     - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
@@ -42,7 +43,9 @@ _Install a local, minimal single instance deployment of an git-server to aid the
 
 - DNS-Server
 
+#### High Level Diagram of the Hub Set-up:
 
+![HighLevelDiagram](./media/c__Users_idumi_OneDrive_Documents_GitHub_l1-cp_media_HighLevelDiagram.png)
 
 ### Step 0. Download the pre-requisites binaries
 
