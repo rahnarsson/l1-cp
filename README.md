@@ -359,12 +359,7 @@ Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
 > [!WARNING]
 > Ensure that the Git-Server values are set according to your system for [spoke-argoapps.yaml](./hub-config/spoke-argoapps.yaml).
 >
-> Example used: 
-> ```bash
-> path: hub-config/operators-deployment
-> repoURL: 'git@10.23.223.72:/home/git/acm.git'
-> targetRevision: master
-> ```
+
 
 ### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
 
