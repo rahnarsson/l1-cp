@@ -253,6 +253,9 @@ FIELDS:
 ```
 - Generating the `.iso` content:
 
+> [!WARNING]
+> Ensure at this stage to create a local back-up of your workingdir/. This is important in case of any required troubleshooting because the `openshift-install agent create image` will "consume" the files to generate the *discovery.iso* .
+> 
 ```bash
 # ./openshift-install agent create image --dir ${HOME}/workdir/. --log-level debug
 ```
