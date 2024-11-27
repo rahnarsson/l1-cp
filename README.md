@@ -13,8 +13,8 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
       - [High Level Diagram of the Hub Set-up:](#high-level-diagram-of-the-hub-set-up)
     - [Step 0. Download the pre-requisites binaries](#step-0-download-the-pre-requisites-binaries)
     - [Step 1. Mirorring the OCI content for a disconnected installation using oc-mirror](#step-1-mirorring-the-oci-content-for-a-disconnected-installation-using-oc-mirror)
-    - [Step 2. Mirroring the OCI content to a Centralized Customer Registry](#step-2-mirroring-the-oci-content-to-a-centralized-customer-registry)
-    - [Step 3. Downloading the RHCOS to AirGapped HTTP Server](#step-3-downloading-the-rhcos-to-airgapped-http-server)
+    - [Step 2. Mirroring the OCI content to a AirGapped Registry](#step-2-mirroring-the-oci-content-to-a-airgapped-registry)
+    - [Step 3. Downloading the RHCOS to AirGapped HTTP(s) Server](#step-3-downloading-the-rhcos-to-airgapped-https-server)
     - [Step 4. Agent-based Installer](#step-4-agent-based-installer)
     - [Step 5. Hub Configuration](#step-5-hub-configuration)
     - [Step 6. Spoke deployment](#step-6-spoke-deployment)
@@ -95,7 +95,7 @@ For any reference of the [imageset-config.yml](./imageset-config.yml).
 > As outlined in the above example, the [imageset-config.yml](./imageset-config.yml) used in week46-2024 it was refering the `release-2.11` default channel for the `advanced-cluster-management`, in order to adhere to the latest changes, use the [imageset-config-w47.yml](./imageset-config-w47.yml).
 
 
-### Step 2. Mirroring the OCI content to a Centralized Customer Registry
+### Step 2. Mirroring the OCI content to a AirGapped Registry
 ```bash
 # DOCKER_CONFIG=${HOME}/.docker/config.json;  \
     ./oc-mirror --from=./mnt/d/l1-cp/ docker://registry.example:5000 
@@ -111,7 +111,7 @@ The following table privides an overview of the ammount of disk space required f
 | **Total**| **74 GiB** | 
 
 
-### Step 3. Downloading the RHCOS to AirGapped HTTP Server
+### Step 3. Downloading the RHCOS to AirGapped HTTP(s) Server
 
 The [rhcos sources for deploying Managed/Spoke(s) 4.16 Clusters](https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.16/4.16.3/) its 
 
