@@ -18,6 +18,7 @@ The purpose of this repo its to document all the steps in deploying a CloudPlatf
     - [Step 4. Agent-based Installer](#step-4-agent-based-installer)
     - [Step 5. Hub Configuration](#step-5-hub-configuration)
     - [Step 6. Spoke deployment](#step-6-spoke-deployment)
+  - [Troubleshooting](#troubleshooting)
   - [Conclusions](#conclusions)
     - [ArgoCD application management:](#argocd-application-management)
     - [No OSD pods are running in an OCS 4.x cluster, even when the OSD Prepare pods are in Completed state, Why?](#no-osd-pods-are-running-in-an-ocs-4x-cluster-even-when-the-osd-prepare-pods-are-in-completed-state-why)
@@ -315,6 +316,20 @@ Before applying the ArgoCD for managing the policies and managed clusters, ensur
 ```bash
 # oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ./hub-config/argocd/argocdpatch.json
  ```
+
+- Create the [Spoke ArgoCD Applications](./hub-config/spoke-argoapps.yaml):
+```bash
+# oc create -f ./hub-config/spoke-argoapps.yaml
+```
+> [!WARNING]
+> Ensure that the Git-Server values are set according to your system for [spoke-argoapps.yaml](./hub-config/spoke-argoapps.yaml).
+>
+
+
+## Troubleshooting
+
+Ensure to collect the following logs if the [AgentBasedInstaller fails during the installation](https://docs.openshift.com/container-platform/4.16/installing/installing_with_agent_based_installer/installing-with-agent-based-installer.html#installing-ocp-agent-gather-log_installing-with-agent-based-installer)
+
 ## Conclusions
 
 ### ArgoCD application management:
@@ -351,14 +366,6 @@ Password:
 'admin:login' logged in successfully
 Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
 ```
-
-- Create the [Spoke ArgoCD Applications](./hub-config/spoke-argoapps.yaml):
-```bash
-# oc create -f ./hub-config/spoke-argoapps.yaml
-```
-> [!WARNING]
-> Ensure that the Git-Server values are set according to your system for [spoke-argoapps.yaml](./hub-config/spoke-argoapps.yaml).
->
 
 
 ### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
