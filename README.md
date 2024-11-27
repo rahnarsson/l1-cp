@@ -292,7 +292,7 @@ Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you ca
 # oc label nodes master{0,1,2} cluster.ocs.openshift.io/openshift-storage=""
 ```
 Ensure that the nodes that are 
-- Create the [ArgoCD Applications](./hub-config/hub-operators-argoapps.yaml):
+- Create the [Hub ArgoCD Applications](./hub-config/hub-operators-argoapps.yaml):
 ```bash
 # oc create -f ./hub-config/hub-operators-argoapps.yaml
 ```
@@ -351,6 +351,20 @@ Password:
 'admin:login' logged in successfully
 Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
 ```
+
+- Create the [Spoke ArgoCD Applications](./hub-config/spoke-argoapps.yaml):
+```bash
+# oc create -f ./hub-config/spoke-argoapps.yaml
+```
+> [!WARNING]
+> Ensure that the Git-Server values are set according to your system for [spoke-argoapps.yaml](./hub-config/spoke-argoapps.yaml).
+>
+> Example used: 
+> ```bash
+> path: hub-config/operators-deployment
+> repoURL: 'git@10.23.223.72:/home/git/acm.git'
+> targetRevision: master
+> ```
 
 ### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
 
