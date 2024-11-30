@@ -8,11 +8,11 @@ resources:
   - gitops_service_cluster.yaml
   - 02_patch_provisioning.yaml
   - 03_mce_config.yaml
-#  - 04_observability_config.yaml
+  - 04_observability_config.yaml
   - 99_00_lso_config.yaml
   - 99_01_odf_config.yaml 
   - ocs-storagecluster-cephfs.yaml
-  #- ./s3_bucket/01_ibu-odf-s3-storage_namespace.yaml
-  #- ./s3_bucket/02_nooba.yaml
-  #- ./s3_bucket/03_my-bucket-objectbucketclaim.yaml
+  - ./s3_bucket/01_ibu-odf-s3-storage_namespace.yaml
+  - ./s3_bucket/02_nooba.yaml
+  - ./s3_bucket/03_my-bucket-objectbucketclaim.yaml
 
