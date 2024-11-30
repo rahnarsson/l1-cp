@@ -673,6 +673,52 @@ Ensure that the nodes that are
 > targetRevision: master
 > ```
 
+In the [hub-operators-argoapps.yaml](./hub-config/hub-operators-argoapps.yaml), the annotation `argocd.argoproj.io/sync-wave` determines the order in which resources are applied during a sync operation. Each resource annotated with this field is assigned to a "wave," and ArgoCD applies resources in ascending order of the wave values. This mechanism ensures proper sequencing of dependent resources.
+
+Here's how the **sync-wave** values for the given resources influence their application order:
+
+**Sync-Wave "0"**
+- These resources are applied first since they have the lowest wave value:
+  - **Provisioning**
+  - **MultiClusterEngine**
+  - **LocalVolume**
+  - **ClusterRoleBinding**
+
+These resources typically establish foundational configurations, roles, and infrastructure required by other components.
+
+ **Sync-Wave "1"**
+- These resources depend on the foundational setup:
+  - **MultiClusterHub**
+  - **OCSInitialization**
+  - **StorageCluster**
+  - **StorageSystem**
+
+These are applied after the resources in wave "0," setting up critical subsystems like OpenShift Container Storage (OCS) and MultiClusterHub.
+
+ **Sync-Wave "2"**
+- These include configurations and services that require prior components to be active:
+  - **ConfigMap (custom-registries)**
+  - **ConfigMap (assisted-service-config)**
+  - **AgentServiceConfig**
+
+This wave prepares the necessary configurations and setups for services to function effectively.
+
+ **Sync-Wave "20"**
+- These are applied after all lower-wave components are in place:
+  - **Secret (thanos-object-storage)**
+  - **MultiClusterObservability**
+  - **Namespace (ibu-odf-s3-storage)**
+
+This high wave value ensures that these resources are configured only after all other dependencies are resolved.
+
+_Why is `sync-wave` important?_
+
+_Answer: In complex setups, resources often have dependencies, such as namespaces needing to exist before placing ConfigMaps, or a storage system requiring proper initial configuration before being utilized._ By leveraging sync-wave annotations:
+- Resources are applied in the correct sequence.
+- The risk of resource conflicts or misconfigurations is minimized.
+- Multi-stage setups are coordinated smoothly.
+
+
 ### Step 6. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
 
 In this section we are going to outline the steps required to achieve a first RHACM Managed/Spoke(s) Deployment.
