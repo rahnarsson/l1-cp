@@ -224,7 +224,27 @@ Creating archive /apps/idumi/mirror_seq1_000017.tar
 The full mirroring logs can be reffer at [.oc-mirror.log](./.oc-mirror.log)
 Once the mirroring process has ended, the following content has been created:
 ```bash
-
+# ls -lh /apps/idumi/
+total 68G
+-rw-r--r-- 1 root root 3.8G Nov 30 13:36 mirror_seq1_000000.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:37 mirror_seq1_000001.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:40 mirror_seq1_000002.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:42 mirror_seq1_000003.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:44 mirror_seq1_000004.tar
+-rw-r--r-- 1 root root 3.7G Nov 30 13:46 mirror_seq1_000005.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:49 mirror_seq1_000006.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:52 mirror_seq1_000007.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:55 mirror_seq1_000008.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 13:59 mirror_seq1_000009.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:02 mirror_seq1_000010.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:05 mirror_seq1_000011.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:07 mirror_seq1_000012.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:10 mirror_seq1_000013.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:13 mirror_seq1_000014.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:16 mirror_seq1_000015.tar
+-rw-r--r-- 1 root root 4.0G Nov 30 14:19 mirror_seq1_000016.tar
+-rw-r--r-- 1 root root  83M Nov 30 14:19 mirror_seq1_000017.tar
+drwxr-xr-x 3 root root 4.0K Nov 30 11:30 oc-mirror-workspace
 ```
 
 For any reference of the [imageset-config.yml](./imageset-config.yml).
@@ -247,9 +267,205 @@ For any reference of the [imageset-config.yml](./imageset-config.yml).
 
 
 ### Step 2. Mirroring the OCI content to a AirGapped Registry
+
+Based on the `.tar` files generated in the previous step, we will now outline the procedure required to mirror the content to an air-gapped registry, as demonstrated in the following example:
 ```bash
 # DOCKER_CONFIG=${HOME}/.docker/config.json;  \
-    ./oc-mirror --from=./mnt/d/l1-cp/ docker://registry.example:5000 
+    ./oc-mirror --from=./apps/idumi/ docker://registry.example:5000 
+```
+
+To provide a detailed illustration of the process, we will reference the following AirGapped Registry: `infra.5g-deployment.lab:8443`. The contents of this registry are outlined below:
+
+```bash
+# curl -X GET -u admin:raspberry https://infra.5g-deployment.lab:8443/v2/_catalog --insecure | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    20  100    20    0     0    152      0 --:--:-- --:--:-- --:--:--   152
+{
+  "repositories": []
+}
+```
+
+As outline above the AirGapped Registry its empty, starting the mirroring from the `.tar` file(s) to the AirGapped Registry:
+
+```bash
+ # DOCKER_CONFIG=${HOME}/.docker/config.json; ./oc-mirror --from=/apps/idumi/ docker://infra.5g-deployment.lab:8443/l1-cp
+Checking push permissions for infra.5g-deployment.lab:8443
+Publishing image set from archive "/apps/idumi/" to registry "infra.5g-deployment.lab:8443"
+..redacted..
+info: Planning completed in 10ms
+uploading: infra.5g-deployment.lab:8443/l1-cp/openshift/release sha256:84126cf41de41b2dd11560aada5c79cb9a55fb5c91929b5685bc129121cc9301 24.95KiB
+uploading: infra.5g-deployment.lab:8443/l1-cp/openshift/release sha256:781837ff0f7c938dca851957050ee20b75813a82d87e92a4f6fdac8efa5e799b 327.9MiB
+sha256:a2e18a2dd3d2dac63f06a5775f082bdd1c2bd360a5173bef2e08a974832a04fa infra.5g-deployment.lab:8443/l1-cp/openshift/release:4.16.15-x86_64-agent-installer-api-server
+info: Mirroring completed in 10.89s (31.56MB/s)
+Wrote release signatures to oc-mirror-workspace/results-1732973958
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/include-config.gob
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/index/index.json
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/045d7948b63e2d84f9e5548232898905900f2be572e8970e0d1991179efd6c73
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/0fe3a205d2d8f036e2b1e1d50d10c4c3537cc2ba8f3f4a3e43d952358dfc22c6
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/129afbc56d6c83f9d3eacc90ee800ea03bc146145affcd16327d2b08a7600910
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/209ada9ff01f0bf1048c543af20a04764ba772ae8104eceb4cdd0d20eb98963a
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/229d90090e889dcdd32709d2f6628f13f139436e2e8cb9bdaf75858e39be22c5
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/35e4749f4cfb8cebcf039ad81f0716b7ab14f56cb7d529be452e04b99b6a7968
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/36489ff863648fd4898ae5297bff9ff47492bcde2ee85face77af37ce67c013d
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/38e753e5cb9360955b30410172d735a0a410f6106aa75ab14cae94bbbdc0bb41
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/45c5063cd74e2470c823ccc90f6e0f674d58673a855264faa6140d1f176b1b2f
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/4c1db222f00d2dc5398975427c640d1dcd01637fa8e449f8a1ceed811f23ec2e
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/52c29b8da622cfd57d1149eb0412d839d2faeb6935f5a361ee1405ef9d698d5a
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/545dc39de9d4cb017d563a4c16706add7f7e98a025aa8bea0d9439072bac0ef7
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/56c1e812f51f0e0a3e5d8759584a0da13604839e8c5941ff694ca61928ceedc9
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/6c9198eeea467f59d150b1fd553f1276338f09cf974719635b07c74962f4540c
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/6dc2ad2bc4e6e1396d7796ad71946955cd4adca263d3aeafb7fcc9fb3f75721f
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/771989c1f0baf2cdd5765e7078b31867daa242b18a311f2e11da1323b2a6b8fd
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/7a7842534d9ed2a95ea1ed40c1414c63b4424384c91d1f4b55bafee7e4f134eb
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/846e7d78a49474ba894609edcdac9ede80da3a4192637ca64d9f6065332e9267
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/919ae6d903c8fa1cfce3a4bfc8ec05cb974ee6003a01ebe6c61eb86dff65cd6d
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/92123690d207b7aebf26528b24e9f046fc6b2e0894369dba143b5255980879c9
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/a86d822494a2039dd151cbec25e9648384fa5ec173948793a496b6d683be23e8
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/ae0badd537673e93bcbcf384ce6acda3cdfef75d43bd2f7bc766ef5ffba3e51a
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/bc254f73ff381207aa1947298b09bdd264aa4e2e2ea2c3d14547269825a04720
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/cce32ddbadbc53ae62d9dab4a4d826d19ceb12eb5a425e2ead149f2999a8a589
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/de8028df1e6bc94a4a00e2815ab52eb3f1f76dc8819bc6bdc7c3fdd4485f5fc7
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/e204c2423a2d004dce141e310c51e0fe2b4b0510daac18c342faf3e0782051a6
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/f7fb3a4ecfa2bf89c492c78ac4e0c108e099152ff074ece5ddd1ffe1ee1d21f5
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/blobs/sha256/fc7937896fdcdf126302a9dcb481bcbe091a13e65b1cb3ba137fce459c92e8d6
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/index.json
+catalogs/registry.redhat.io/redhat/redhat-operator-index/v4.16/layout/oci-layout
+Rendering catalog image "infra.5g-deployment.lab:8443/l1-cp/redhat/redhat-operator-index:v4.16" with file-based catalog
+Writing image mapping to oc-mirror-workspace/results-1732973958/mapping.txt
+Writing UpdateService manifests to oc-mirror-workspace/results-1732973958
+Writing CatalogSource manifests to oc-mirror-workspace/results-1732973958
+Writing ICSP manifests to oc-mirror-workspace/results-1732973958
+```
+> [!WARNING]
+> To ensure proper configuration, it is essential to maintain the  mirrored directory `oc-mirror-workspace/results-1732973958/` and its  associated files, `catalogSource-cs-redhat-operator-index.yaml` and  `imageContentSourcePolicy.yaml`, as they are referenced in the [install-config.yaml](./workingdir/install-config.yaml). The specified  files must be stored under the [openshift](./workingdir/openshift/) directory. 
+> 
+> Additionally, the contents of `imageContentSourcePolicy.yaml` are required to be properly incorporated into `install-config.yaml` as follows:
+> 
+> ```yaml
+> ---
+> ..redacted..
+>   repositoryDigestMirrors:
+>   - mirrors:
+>     - infra.5g-deployment.lab:8443/l1-cp/openshift/release
+>     source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+>   - mirrors:
+>     - infra.5g-deployment.lab:8443/l1-cp/openshift/release-images
+>     source: quay.io/openshift-release-dev/ocp-release
+> ```
+> Ensure that these configurations are correctly placed and updated to support the deployment process effectively.
+
+Building on the previous example, we will proceed to validate the contents of the AirGapped Registry upon completion of the mirroring process:
+
+```bash
+# curl -X GET -u admin:raspberry https://infra.5g-deployment.lab:8443/v2/_catalog --insecure | jq .
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  4732    0  4732    0     0  26288      0 --:--:-- --:--:-- --:--:-- 26143
+{
+  "repositories": [
+    "l1-cp/multicluster-engine/addon-manager-rhel9",
+    "l1-cp/multicluster-engine/assisted-image-service-rhel9",
+    "l1-cp/multicluster-engine/assisted-installer-agent-rhel9",
+    "l1-cp/multicluster-engine/assisted-installer-controller-rhel9",
+    "l1-cp/multicluster-engine/assisted-installer-rhel9",
+    "l1-cp/multicluster-engine/assisted-service-8-rhel8",
+    "l1-cp/multicluster-engine/assisted-service-9-rhel9",
+    "l1-cp/multicluster-engine/backplane-rhel9-operator",
+    "l1-cp/multicluster-engine/cluster-api-provider-agent-rhel9",
+    "l1-cp/multicluster-engine/cluster-api-provider-kubevirt-rhel9",
+    "l1-cp/multicluster-engine/cluster-api-rhel9",
+    "l1-cp/multicluster-engine/cluster-curator-controller-rhel9",
+    "l1-cp/multicluster-engine/cluster-image-set-controller-rhel9",
+    "l1-cp/multicluster-engine/cluster-proxy-addon-rhel9",
+    "l1-cp/multicluster-engine/cluster-proxy-rhel9",
+    "l1-cp/multicluster-engine/clusterclaims-controller-rhel9",
+    "l1-cp/multicluster-engine/clusterlifecycle-state-metrics-rhel9",
+    "l1-cp/multicluster-engine/console-mce-rhel9",
+    "l1-cp/multicluster-engine/discovery-rhel9",
+    "l1-cp/multicluster-engine/hive-rhel9",
+    "l1-cp/multicluster-engine/hypershift-addon-rhel9-operator",
+    "l1-cp/multicluster-engine/hypershift-cli-rhel9",
+    "l1-cp/multicluster-engine/hypershift-rhel9-operator",
+    "l1-cp/multicluster-engine/image-based-install-rhel9",
+    "l1-cp/multicluster-engine/kube-rbac-proxy-mce-rhel9",
+    "l1-cp/multicluster-engine/managed-serviceaccount-rhel9",
+    "l1-cp/multicluster-engine/managedcluster-import-controller-rhel9",
+    "l1-cp/multicluster-engine/mce-operator-bundle",
+    "l1-cp/multicluster-engine/multicloud-manager-rhel9",
+    "l1-cp/multicluster-engine/must-gather-rhel9",
+    "l1-cp/multicluster-engine/placement-rhel9",
+    "l1-cp/multicluster-engine/provider-credential-controller-rhel9",
+    "l1-cp/multicluster-engine/registration-operator-rhel9",
+    "l1-cp/multicluster-engine/registration-rhel9",
+    "l1-cp/multicluster-engine/work-rhel9",
+    "l1-cp/odf4/cephcsi-rhel9",
+    "l1-cp/odf4/mcg-core-rhel9",
+    "l1-cp/odf4/mcg-operator-bundle",
+    "l1-cp/odf4/mcg-rhel9-operator",
+    "l1-cp/odf4/ocs-client-console-rhel9",
+    "l1-cp/odf4/ocs-client-operator-bundle",
+    "l1-cp/odf4/ocs-client-rhel9-operator",
+    "l1-cp/odf4/ocs-metrics-exporter-rhel9",
+    "l1-cp/odf4/ocs-operator-bundle",
+    "l1-cp/odf4/ocs-rhel9-operator",
+    "l1-cp/odf4/odf-console-rhel9",
+    "l1-cp/odf4/odf-cosi-sidecar-rhel9",
+    "l1-cp/odf4/odf-csi-addons-operator-bundle",
+    "l1-cp/odf4/odf-csi-addons-rhel9-operator",
+    "l1-cp/odf4/odf-csi-addons-sidecar-rhel9",
+    "l1-cp/odf4/odf-must-gather-rhel9",
+    "l1-cp/odf4/odf-operator-bundle",
+    "l1-cp/odf4/odf-prometheus-operator-bundle",
+    "l1-cp/odf4/odf-rhel9-operator",
+    "l1-cp/odf4/odr-recipe-operator-bundle",
+    "l1-cp/odf4/odr-rhel9-operator",
+    "l1-cp/odf4/rook-ceph-operator-bundle",
+    "l1-cp/odf4/rook-ceph-rhel9-operator",
+    "l1-cp/openshift/graph-image",
+    "l1-cp/openshift/release",
+    "l1-cp/openshift/release-images",
+    "l1-cp/openshift-gitops-1/argo-rollouts-rhel8",
+    "l1-cp/openshift-gitops-1/argocd-rhel8",
+    "l1-cp/openshift-gitops-1/console-plugin-rhel8",
+    "l1-cp/openshift-gitops-1/dex-rhel8",
+    "l1-cp/openshift-gitops-1/gitops-operator-bundle",
+    "l1-cp/openshift-gitops-1/gitops-rhel8",
+    "l1-cp/openshift-gitops-1/gitops-rhel8-operator",
+    "l1-cp/openshift-gitops-1/kam-delivery-rhel8",
+    "l1-cp/openshift-gitops-1/must-gather-rhel8",
+    "l1-cp/openshift-logging/cluster-logging-operator-bundle",
+    "l1-cp/openshift-logging/cluster-logging-rhel9-operator",
+    "l1-cp/openshift-logging/log-file-metric-exporter-rhel9",
+    "l1-cp/openshift-logging/vector-rhel9",
+    "l1-cp/openshift4/ose-configmap-reloader-rhel9",
+    "l1-cp/openshift4/ose-csi-external-attacher-rhel8",
+    "l1-cp/openshift4/ose-csi-external-attacher-rhel9",
+    "l1-cp/openshift4/ose-csi-external-provisioner",
+    "l1-cp/openshift4/ose-csi-external-provisioner-rhel9",
+    "l1-cp/openshift4/ose-csi-external-resizer",
+    "l1-cp/openshift4/ose-csi-external-resizer-rhel9",
+    "l1-cp/openshift4/ose-csi-external-snapshotter-rhel8",
+    "l1-cp/openshift4/ose-csi-external-snapshotter-rhel9",
+    "l1-cp/openshift4/ose-csi-node-driver-registrar",
+    "l1-cp/openshift4/ose-csi-node-driver-registrar-rhel9",
+    "l1-cp/openshift4/ose-haproxy-router",
+    "l1-cp/openshift4/ose-kube-rbac-proxy",
+    "l1-cp/openshift4/ose-kube-rbac-proxy-rhel9",
+    "l1-cp/openshift4/ose-local-storage-diskmaker-rhel9",
+    "l1-cp/openshift4/ose-local-storage-mustgather-rhel9",
+    "l1-cp/openshift4/ose-local-storage-operator-bundle",
+    "l1-cp/openshift4/ose-local-storage-rhel9-operator",
+    "l1-cp/openshift4/ose-oauth-proxy",
+    "l1-cp/openshift4/ose-oauth-proxy-rhel9",
+    "l1-cp/openshift4/ose-prometheus-alertmanager-rhel9",
+    "l1-cp/openshift4/ose-prometheus-config-reloader-rhel9",
+    "l1-cp/openshift4/ose-prometheus-rhel9",
+    "l1-cp/openshift4/ose-prometheus-rhel9-operator",
+    "l1-cp/openshift4/topology-aware-lifecycle-manager-aztp-rhel9",
+    "l1-cp/openshift4/topology-aware-lifecycle-manager-operator-bundle"
+  ]
+}
 ```
 
 The following table privides an overview of the ammount of disk space required for the AirGapped Registry + a 10% overhead when mirroring the [imageset-config.yaml](./imageset-config.yml) :
