@@ -66,8 +66,130 @@ curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.15/opens
 > [!WARNING]
 > Ensure to include in your `config.json` the pull-secret of your AirGapped Registry and Red Hat public [pull-secret](https://console.redhat.com/openshift/install/pull-secret).
 
+Once we have all the prerequisite met on the system, lets proceed in creating the [imageset-config.yml](./imageset-config.yml) file:
+
+Example for `advanced-cluster-management`: 
 ```bash
-# DOCKER_CONFIG=${HOME}/.docker/config.json; ./oc-mirror --config imageset-config.yml file:///mnt/c/Users/idumi/
+# DOCKER_CONFIG=/root/.docker/; ./oc-mirror list operators --catalog registry.redhat.io/redhat/redhat-operator-index:v4.16 --package=advanced-cluster-management
+
+NAME                         DISPLAY NAME                                DEFAULT CHANNEL
+advanced-cluster-management  Advanced Cluster Management for Kubernetes  release-2.12
+
+PACKAGE                      CHANNEL       HEAD
+advanced-cluster-management  release-2.10  advanced-cluster-management.v2.10.6
+advanced-cluster-management  release-2.11  advanced-cluster-management.v2.11.3
+advanced-cluster-management  release-2.12  advanced-cluster-management.v2.12.0
+```
+In order to validate all the day2-operators default channel version an example its provided in [process_packages.sh](./process_packages.sh), the script its producing the following output:
+
+```bash
+# ./process_packages.sh
+Processing package: advanced-cluster-management
+NAME                         DISPLAY NAME                                DEFAULT CHANNEL
+advanced-cluster-management  Advanced Cluster Management for Kubernetes  release-2.12
+
+PACKAGE                      CHANNEL       HEAD
+advanced-cluster-management  release-2.10  advanced-cluster-management.v2.10.6
+advanced-cluster-management  release-2.11  advanced-cluster-management.v2.11.3
+advanced-cluster-management  release-2.12  advanced-cluster-management.v2.12.0
+Processing package: multicluster-engine
+NAME                 DISPLAY NAME                        DEFAULT CHANNEL
+multicluster-engine  multicluster engine for Kubernetes  stable-2.7
+
+PACKAGE              CHANNEL     HEAD
+multicluster-engine  stable-2.5  multicluster-engine.v2.5.7
+multicluster-engine  stable-2.6  multicluster-engine.v2.6.3
+multicluster-engine  stable-2.7  multicluster-engine.v2.7.1
+Processing package: topology-aware-lifecycle-manager
+NAME                              DISPLAY NAME                      DEFAULT CHANNEL
+topology-aware-lifecycle-manager  Topology Aware Lifecycle Manager  stable
+
+PACKAGE                           CHANNEL  HEAD
+topology-aware-lifecycle-manager  4.16     topology-aware-lifecycle-manager.v4.16.2
+topology-aware-lifecycle-manager  stable   topology-aware-lifecycle-manager.v4.16.2
+Processing package: openshift-gitops-operator
+NAME                       DISPLAY NAME              DEFAULT CHANNEL
+openshift-gitops-operator  Red Hat OpenShift GitOps  latest
+
+PACKAGE                    CHANNEL      HEAD
+openshift-gitops-operator  gitops-1.10  openshift-gitops-operator.v1.10.6
+openshift-gitops-operator  gitops-1.11  openshift-gitops-operator.v1.11.7-0.1724840231.p
+openshift-gitops-operator  gitops-1.12  openshift-gitops-operator.v1.12.6
+openshift-gitops-operator  gitops-1.13  openshift-gitops-operator.v1.13.3
+openshift-gitops-operator  gitops-1.14  openshift-gitops-operator.v1.14.2
+openshift-gitops-operator  gitops-1.6   openshift-gitops-operator.v1.6.6
+openshift-gitops-operator  gitops-1.7   openshift-gitops-operator.v1.7.4-0.1690486082.p
+openshift-gitops-operator  gitops-1.8   openshift-gitops-operator.v1.8.6
+openshift-gitops-operator  gitops-1.9   openshift-gitops-operator.v1.9.4
+openshift-gitops-operator  latest       openshift-gitops-operator.v1.14.2
+Processing package: odf-operator
+NAME          DISPLAY NAME               DEFAULT CHANNEL
+odf-operator  OpenShift Data Foundation  stable-4.16
+
+PACKAGE       CHANNEL      HEAD
+odf-operator  stable-4.15  odf-operator.v4.15.8-rhodf
+odf-operator  stable-4.16  odf-operator.v4.16.3-rhodf
+Processing package: ocs-operator
+NAME          DISPLAY NAME                 DEFAULT CHANNEL
+ocs-operator  OpenShift Container Storage  stable-4.16
+
+PACKAGE       CHANNEL      HEAD
+ocs-operator  stable-4.15  ocs-operator.v4.15.8-rhodf
+ocs-operator  stable-4.16  ocs-operator.v4.16.3-rhodf
+Processing package: odf-csi-addons-operator
+NAME                     DISPLAY NAME  DEFAULT CHANNEL
+odf-csi-addons-operator  CSI Addons    stable-4.16
+
+PACKAGE                  CHANNEL      HEAD
+odf-csi-addons-operator  stable-4.15  odf-csi-addons-operator.v4.15.8-rhodf
+odf-csi-addons-operator  stable-4.16  odf-csi-addons-operator.v4.16.3-rhodf
+Processing package: local-storage-operator
+NAME                    DISPLAY NAME   DEFAULT CHANNEL
+local-storage-operator  Local Storage  stable
+
+PACKAGE                 CHANNEL  HEAD
+local-storage-operator  stable   local-storage-operator.v4.16.0-202411190033
+Processing package: mcg-operator
+NAME          DISPLAY NAME     DEFAULT CHANNEL
+mcg-operator  NooBaa Operator  stable-4.16
+
+PACKAGE       CHANNEL      HEAD
+mcg-operator  stable-4.15  mcg-operator.v4.15.8-rhodf
+mcg-operator  stable-4.16  mcg-operator.v4.16.3-rhodf
+Processing package: cluster-logging
+NAME             DISPLAY NAME               DEFAULT CHANNEL
+cluster-logging  Red Hat OpenShift Logging  stable-6.1
+
+PACKAGE          CHANNEL     HEAD
+cluster-logging  stable      cluster-logging.v5.9.9
+cluster-logging  stable-5.8  cluster-logging.v5.8.15
+cluster-logging  stable-5.9  cluster-logging.v5.9.9
+cluster-logging  stable-6.0  cluster-logging.v6.0.2
+cluster-logging  stable-6.1  cluster-logging.v6.1.0
+Processing package: odf-prometheus-operator
+NAME                     DISPLAY NAME         DEFAULT CHANNEL
+odf-prometheus-operator  Prometheus Operator  stable-4.16
+
+PACKAGE                  CHANNEL      HEAD
+odf-prometheus-operator  stable-4.16  odf-prometheus-operator.v4.16.3-rhodf
+Processing package: recipe
+NAME    DISPLAY NAME  DEFAULT CHANNEL
+recipe  Recipe        stable-4.16
+
+PACKAGE  CHANNEL      HEAD
+recipe   stable-4.16  recipe.v4.16.3-rhodf
+Processing package: rook-ceph-operator
+NAME                DISPLAY NAME  DEFAULT CHANNEL
+rook-ceph-operator  Rook-Ceph     stable-4.16
+
+PACKAGE             CHANNEL      HEAD
+rook-ceph-operator  stable-4.16  rook-ceph-operator.v4.16.3-rhodf
+All packages processed.
+```
+Utilize the values obtained during the `day2-operator` package inspection to verify that the `DEFAULT CHANNEL` is correctly templated in the [imageset-config.yml](./imageset-config.yml) file. Once validated, proceed with the mirroring process:
+
+```bash
+# DOCKER_CONFIG=${HOME}/.docker/config.json; ./oc-mirror --config imageset-config.yml file:///apps/idumi/
 Creating directory: home/oc-mirror-workspace/src/publish
 Creating directory: home/oc-mirror-workspace/src/v2
 Creating directory: home/oc-mirror-workspace/src/charts
@@ -76,7 +198,31 @@ backend is not configured in imageset-config.yaml, using stateless mode
 backend is not configured in imageset-config.yaml, using stateless mode
 No metadata detected, creating new workspace
 ..redacted..
+info: Mirroring completed in 2h3m21.48s (9.416MB/s)
+Creating archive /apps/idumi/mirror_seq1_000000.tar
+Creating archive /apps/idumi/mirror_seq1_000001.tar
+Creating archive /apps/idumi/mirror_seq1_000002.tar
+Creating archive /apps/idumi/mirror_seq1_000003.tar
+Creating archive /apps/idumi/mirror_seq1_000004.tar
+Creating archive /apps/idumi/mirror_seq1_000005.tar
+Creating archive /apps/idumi/mirror_seq1_000006.tar
+Creating archive /apps/idumi/mirror_seq1_000007.tar
+Creating archive /apps/idumi/mirror_seq1_000008.tar
+Creating archive /apps/idumi/mirror_seq1_000009.tar
+Creating archive /apps/idumi/mirror_seq1_000010.tar
+Creating archive /apps/idumi/mirror_seq1_000011.tar
+Creating archive /apps/idumi/mirror_seq1_000012.tar
+
 ```
+> [!WARNING]
+> The message `info: Mirroring completed in 2h3m21.48s (9.416MB/s)` is provided as an illustrative example and should not be interpreted as a definitive benchmark. Actual performance may vary depending on factors such as internet broadband speed, network latency, disk performance, and other environmental conditions.
+
+The full mirroring logs can be reffer at [.oc-mirror.log](./.oc-mirror.log)
+Once the mirroring process has ended, the following content has been created:
+```bash
+
+```
+
 For any reference of the [imageset-config.yml](./imageset-config.yml).
 
 > [!WARNING]
@@ -370,7 +516,7 @@ Context 'openshift-gitops-server-openshift-gitops.apps.hub.example.com' updated
 - Synchronize the ArgoCD Application
 
 ```bash
-argocd app sync clusters
+argocd app sync clusters --force --prune
 ```
 
 ### No OSD pods are running in an OCS 4.x cluster, even when the [OSD Prepare pods are in Completed state](https://access.redhat.com/solutions/6910101), Why?
