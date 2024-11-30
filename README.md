@@ -212,7 +212,11 @@ Creating archive /apps/idumi/mirror_seq1_000009.tar
 Creating archive /apps/idumi/mirror_seq1_000010.tar
 Creating archive /apps/idumi/mirror_seq1_000011.tar
 Creating archive /apps/idumi/mirror_seq1_000012.tar
-
+Creating archive /apps/idumi/mirror_seq1_000013.tar
+Creating archive /apps/idumi/mirror_seq1_000014.tar
+Creating archive /apps/idumi/mirror_seq1_000015.tar
+Creating archive /apps/idumi/mirror_seq1_000016.tar
+Creating archive /apps/idumi/mirror_seq1_000017.tar
 ```
 > [!WARNING]
 > The message `info: Mirroring completed in 2h3m21.48s (9.416MB/s)` is provided as an illustrative example and should not be interpreted as a definitive benchmark. Actual performance may vary depending on factors such as internet broadband speed, network latency, disk performance, and other environmental conditions.
