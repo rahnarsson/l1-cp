@@ -2,6 +2,8 @@
 apiVersion: ocs.openshift.io/v1
 kind: OCSInitialization
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: ocsinit
   namespace: openshift-storage
 spec:
@@ -10,6 +12,8 @@ spec:
 apiVersion: ocs.openshift.io/v1
 kind: StorageCluster
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
   name: ocs-storagecluster
   namespace: openshift-storage
 spec:
@@ -85,6 +89,7 @@ apiVersion: odf.openshift.io/v1alpha1
 kind: StorageSystem
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
   - storagesystem.odf.openshift.io
   name: ocs-storagecluster-storagesystem

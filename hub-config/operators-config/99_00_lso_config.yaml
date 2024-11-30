@@ -2,6 +2,8 @@
 apiVersion: local.storage.openshift.io/v1
 kind: LocalVolume
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
   name: local-block
   namespace: openshift-local-storage
 spec:
