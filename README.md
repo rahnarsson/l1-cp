@@ -658,7 +658,18 @@ Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you ca
 ```bash
 # oc label nodes master{0,1,2} cluster.ocs.openshift.io/openshift-storage=""
 ```
-Ensure that the nodes that are 
+[Each worker node that has local storage devices to be used by OpenShift Container Storage must have a specific label to deploy OpenShift Container Storage pods.](https://docs.redhat.com/en/documentation/red_hat_openshift_container_storage/4.4/html-single/deploying_openshift_container_storage/index#requirements-for-installing-openshift-container-storage-using-local-storage-devices_aws-vmware)
+
+- [Add the Git reporsitory](https://argo-cd.readthedocs.io/en/latest/user-guide/commands/argocd_repo_add/#argocd-repo-add-command-reference) to the `openshift-gitops` operator:
+```bash
+  # Add a Git repository via SSH using a private key for authentication, ignoring the server's host key:
+  argocd repo add git@git.example.com:repos/repo --insecure-ignore-host-key --ssh-private-key-path ~/id_rsa
+
+  # Add a Git repository via SSH on a non-default port - need to use ssh:// style URLs here
+  argocd repo add ssh://git@git.example.com:2222/repos/repo --ssh-private-key-path ~/id_rsa
+```
+More information about [Setting up an Argo CD instance](https://docs.redhat.com/en/documentation/red_hat_openshift_gitops/1.14/html/argo_cd_instance/setting-up-argocd-instance)
+
 - Create the [Hub ArgoCD Applications](./hub-config/hub-operators-argoapps.yaml):
 ```bash
 # oc create -f ./hub-config/hub-operators-argoapps.yaml
