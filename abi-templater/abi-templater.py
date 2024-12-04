@@ -59,7 +59,7 @@ def loading_snake():
         print(f"\rLoading {snake[idx]}", end="")
         idx = (idx + 1) % len(snake)
         time.sleep(0.2)
-    print("\rLoading complete.     ")
+    print("\rLoading complete.")
 
 # Main program
 def main():
@@ -83,11 +83,12 @@ def main():
         # Validate the configuration
         validate_config(input_config)
 
+        print("\nTemplating the ABI config:")
         # Generate install-config.yaml in WORKING_DIR
         install_config_content = render_template(INSTALL_CONFIG_TEMPLATE, input_config)
         with open(INSTALL_CONFIG_OUTPUT, 'w') as install_file:
             install_file.write(install_config_content)
-        print(f"\n{INSTALL_CONFIG_OUTPUT} generated successfully.")
+        print(f"{INSTALL_CONFIG_OUTPUT} generated successfully.")
 
         # Generate agent-config.yaml in WORKING_DIR/openshift
         agent_config_content = render_template(AGENT_CONFIG_TEMPLATE, input_config)
