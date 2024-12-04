@@ -477,6 +477,14 @@ The following table privides an overview of the ammount of disk space required f
 | Additional troubleshooting OCI(s)| ~ 4 GiB | A single Release | 
 | **Total**| **74 GiB** | 
 
+The following table privides an overview of the ammount of disk space required for the AirGapped Registry + a 10% overhead when mirroring the [imageset-config-w47-versions.yml](./imageset-config-w47-versions.yml) :
+
+| Version | Storage Required | Notes |
+| --- | --- | --- |
+| Cluster Release Operators 4.16.15 | ~ 20 GiB  | A single Release  |
+| RHACM day2-operators | ~  GiB | A single Release of RHACM Day2 Operators [imageset-config-w47-versions.yml](./imageset-config-w47-versions.yml)
+| Additional troubleshooting OCI(s)| ~ 4 GiB | A single Release | 
+| **Total**| **74 GiB** | 
 
 ### Step 3. Downloading the RHCOS to AirGapped HTTP(s) Server
 
