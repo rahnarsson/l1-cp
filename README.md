@@ -482,9 +482,9 @@ The following table privides an overview of the ammount of disk space required f
 | Version | Storage Required | Notes |
 | --- | --- | --- |
 | Cluster Release Operators 4.16.15 | ~ 20 GiB  | A single Release  |
-| RHACM day2-operators | ~  GiB | A single Release of RHACM Day2 Operators [imageset-config-w47-versions.yml](./imageset-config-w47-versions.yml)
+| RHACM day2-operators | ~ 47 GiB | A single version of RHACM Day2 Operators [imageset-config-w47-versions.yml](./imageset-config-w47-versions.yml)
 | Additional troubleshooting OCI(s)| ~ 4 GiB | A single Release | 
-| **Total**| **74 GiB** | 
+| **Total**| **71 GiB** | 
 
 ### Step 3. Downloading the RHCOS to AirGapped HTTP(s) Server
 
