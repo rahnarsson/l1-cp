@@ -50,6 +50,16 @@ _Install a local, minimal single instance deployment of an git-server to aid the
 
 ### Step 0. Download the pre-requisites binaries
 
+> [!WARNING]
+> Ensure to properly configure your proxy in case of proxy usage for reaching domains like `quay.io` and or `registry.redhat.io`.
+> Linux OS example:
+> ```bash
+> export https_proxy="https://proxy.server.com:PORT"
+> export http_proxy="http://proxy.server.com:PORT"
+> export no_proxy="localhost,127.0.0.1,::1"  # Addresses to bypass proxy
+> ```
+> In the above example, ensure to use your environment values! 
+
 - Ensure my environment has `oc-mirror` client:
 ```bash
 curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.16.15/oc-mirror.tar.gz | tar -xz && chmod +x oc-mirror
