@@ -72,7 +72,7 @@ for package in "${packages[@]}"; do
   echo "Processing package: $package"
   
   # Example command (replace with actual logic)
-  ./oc-mirror list operators --catalog registry.redhat.io/redhat/redhat-operator-index:v4.16 --package="$package"
+  ./${TARGET_DIR}/oc-mirror list operators --catalog registry.redhat.io/redhat/redhat-operator-index:v4.16 --package="$package"
   
   # Add additional logic here for processing the output if needed
 done
