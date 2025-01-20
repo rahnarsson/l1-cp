@@ -523,6 +523,10 @@ And store them to your AirGapped HTTP(s) Server, this content its required while
 # ./oc adm release extract -a .docker/config.json \
      --command=openshift-install registry.example:5000/ocp-release:4.16.15-x86_64  
 ```
+> [!WARNING]
+> **Usage:**
+>  - `--idms-file=''`, this specifies the path to an `ImageDigestMirrorSet` file. If provided, the data in this file will be used to locate alternative image sources.
+>  - Additionally, the `--certificate-authority=''` flag is **optional** if the AirGapped Registry is already saved to the workstation.
 
 - Generating the [workingdir](./workingdir/) directory structure:
 
