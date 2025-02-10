@@ -2,6 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonAnnotations:
   argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+generators:
+  - 99_02_observability_storage.yaml
 resources:
   - 00_rhacm_config.yaml
   - 01_ai_config.yaml
@@ -15,4 +17,4 @@ resources:
   - ./s3_bucket/01_ibu-odf-s3-storage_namespace.yaml
   - ./s3_bucket/02_nooba.yaml
   - ./s3_bucket/03_my-bucket-objectbucketclaim.yaml
-
+  - ./s3_bucket/04_thanos_objectbucketclaim.yaml

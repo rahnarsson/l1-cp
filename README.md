@@ -676,6 +676,12 @@ $ tree .
 
 Once the Hub Cluster OCP and `openshift-gitop-operator` are fully deploy, you can proceed by creating the Hub Configuration ArgoCD Applications:
 
+- To install support for ZTP-related CRs inside ArgoCD we need to patch the ArgoCD application with customized image:
+
+```bash
+# oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ./hub-config/argocd/argocdpatch.json
+ ```
+
 - Label the Storage nodes of your Hub Cluster:
 ```bash
 # oc label nodes master{0,1,2} cluster.ocs.openshift.io/openshift-storage=""
@@ -830,12 +836,6 @@ _Answer: In complex setups, resources often have dependencies, such as namespace
 ### Step 6. [Spoke deployment](https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/html/edge_computing/ztp-deploying-far-edge-sites#ztp-deploying-far-edge-sites)
 
 In this section we are going to outline the steps required to achieve a first RHACM Managed/Spoke(s) Deployment.
-
-Before applying the ArgoCD for managing the policies and managed clusters, ensure to patch the ArgoCD:
-
-```bash
-# oc patch argocd openshift-gitops -n openshift-gitops --type=merge --patch-file ./hub-config/argocd/argocdpatch.json
- ```
 
 - Create the [Spoke ArgoCD Applications](./hub-config/spoke-argoapps.yaml):
 ```bash
