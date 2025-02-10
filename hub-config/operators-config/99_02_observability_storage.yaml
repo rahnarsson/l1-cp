@@ -11,7 +11,7 @@ spec:
       policyName: w10
       metadata:
         annotations:
-          ran.openshift.io/ztp-deploy-wave: "10"
+          ran.openshift.io/ztp-deploy-wave: "20"
   bindingRules:
     name: local-cluster
   bindingExcludedRules: {}
